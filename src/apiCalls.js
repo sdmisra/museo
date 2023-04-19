@@ -19,4 +19,4 @@ const getSomeArt = (objectID) => {
     })
 }
 
-export default {findSomeArt, getSomeArt};
+export {findSomeArt, getSomeArt};
