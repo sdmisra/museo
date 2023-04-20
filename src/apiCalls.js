@@ -9,7 +9,7 @@ const findSomeArt = (query) => {
 }
 
 
-const getSomeArt = (objectID) => {
+const getThatArt = (objectID) => {
   return fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`)
     .then((res) => {
       if(!res.ok) {
@@ -19,4 +19,4 @@ const getSomeArt = (objectID) => {
     })
 }
 
-export {findSomeArt, getSomeArt};
+export {findSomeArt, getThatArt};
