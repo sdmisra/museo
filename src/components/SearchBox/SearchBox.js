@@ -1,36 +1,46 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {findSomeArt, getThatArt} from '../../apiCalls'
 import './SearchBox.css'
 
-function SearchBox() {
-  const [searchResults, setSearchResults] = useState([]);
-  const [resultsLength, setResultsLength] = useState(1)
-  const [formState, setFormState] = useState('');
+function SearchBox {
 
-  useEffect((event) => {
 
-    console.log(searchResults)
-  }, [searchResults])
+  handleChange = (event) => {
+    event.preventDefault()
+    this.setState({[event.target.name]: event.target.value});
+    }
 
-  const querySearch = (param, event) => {
-  event.preventDefault()
-  findSomeArt(param).then(data =>{
-  console.log(data['objectIDs'])
-  setSearchResults(data['objectIDs'])
-  });
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      console.log(this.state.formValue)
+      this.props.querySearch(this.state.formValue)
+    }
+  }
+  
+  clearFilters = (event) => {
+    event.preventDefault();
+    this.setState({
+      formValue: ''
+    })
+  }
 
+  render() {
   return (
-  <form>
-    <div className='input-box'>
-      <label>Search for Artwork:</label>
-      <input className='search-box' name='search-box' type='string' placeholder='Search...' value={formState} onChange={event => {
-        setFormState(event.target.value);
-      }} />
-    </div>
-    <button onClick={()=> querySearch(formState, event)}>Get Art!</button>
-  </form>
+    <footer>
+      <form >
+      <div className='input-box'>
+        <input type='text' 
+          className='search-box' 
+          name='search-box'
+          placeholder='Search the Met...' 
+          value={this.state.formValue} 
+          onChange={event => this.handleChange(event)}>
+        </input>
+      </div>
+    <button onClick={()=> this.props.querySearch(this.state.formValue)}>Get Art!</button>
+    </form>
+  </footer>
   )
-}
-}
+}}
 
 export default SearchBox;

@@ -1,4 +1,28 @@
 .App {
   display: flex;
+  flex-direction: column;
   text-align: center;
+  align-items: center;
+  margin: 5px;
+  padding: 10px;
+}
+
+.main-container {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  height: 80vh;
+  width: 80vw;
+  border: 2px black solid;
+  border-radius: 4px;
+}
+
+.search-results {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 50%;
 }
