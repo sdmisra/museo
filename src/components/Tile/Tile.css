@@ -1,4 +1,13 @@
 .result-tile {
-  height: 20%;
-  width: 15%;
+  height: 150px;
+  width: 120px;
+}
+.result-title {
+  font-size: 12px;
+}
+.result-tile > img {
+  border: 1px black solid;
+  border-radius: 4px;
+  max-width: 95%;
+  max-height: 95%;
 }

@@ -7,8 +7,8 @@ function Tile(props) {
     return (
       <div className="result-tile" id={data.objectID}>
         <img src={data.primaryImageSmall}/>
-        <span>Result Footer</span>
-        <h3>{data.artistDisplayName}</h3>
+        <span className="result-title">Text Here</span>
+        <h3>{data.objectID}</h3>
       </div>
     )
 }

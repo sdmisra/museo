@@ -10,16 +10,14 @@ function App() {
 
   useEffect(() => {
     let dataToTile = [];
-    if (searchResults.length > 0) {
-      for (let i=0; i < 8; i++) {
-        getThatArt(searchResults[i]).then(data => {
-        dataToTile.push(< Tile props={data}/>)
-        console.log(`Data:`, dataToTile)
-        })
-      }
-    setMiniTiles([...miniGalleryTiles, dataToTile])
-    }
-  }, [searchResults])
+    let firstTwenty = searchResults.slice(0, 19)
+    firstTwenty.map((id)=> {
+      getThatArt(id).then((artifact)=> {
+        dataToTile.push(<Tile props={artifact} key={artifact.objectID}/>)
+      })
+    })
+    setMiniTiles(dataToTile)
+    },[searchResults])
 
   const querySearch = (parameters, event) => {
     event.preventDefault();
@@ -27,11 +25,10 @@ function App() {
       console.log(data)
       setSearchResults(data['objectIDs'])
     });
-    clearSearch(event)
+    clearSearch()
   }
 
-  const clearSearch = (event) => {
-    event.preventDefault();
+  const clearSearch = () => {
     setFormValue('')
   }
 
