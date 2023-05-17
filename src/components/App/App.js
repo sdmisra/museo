@@ -1,11 +1,11 @@
 import React, {useState, useEffect}from 'react'
 import {findSomeArt, getThatArt} from '../../apiCalls'
+import SearchBox from '../SearchBox/SearchBox';
 import Tile from '../Tile/Tile';
 import './App.css';
 
 function App() {
   const [searchResults, setSearchResults] = useState([])
-  const [formValue, setFormValue] = useState('')
   const [miniGalleryTiles, setMiniTiles] = useState([])
 
   useEffect(() => {
@@ -25,11 +25,6 @@ function App() {
       console.log(data)
       setSearchResults(data['objectIDs'])
     });
-    clearSearch()
-  }
-
-  const clearSearch = () => {
-    setFormValue('')
   }
 
   return (
@@ -40,18 +35,7 @@ function App() {
         </section>
       </div>
       <footer>
-        <form >
-          <div className='input-box'>
-            <input type='text' 
-              className='search-box' 
-              name='search-box'
-              placeholder='Search the Met...' 
-              value={formValue} 
-              onChange={(event) => setFormValue(event.target.value)}>
-            </input>
-          </div>
-            <button onClick={(event)=> querySearch(formValue, event)}>Get Art!</button>
-        </form>
+        <SearchBox querySearch={querySearch}/>
       </footer>
     </main>
   )

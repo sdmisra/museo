@@ -1,6 +1,10 @@
 .result-tile {
   height: 150px;
   width: 120px;
+  padding: .5rem;
+  margin: .25rem;
+  border: 1px black solid;
+  border-radius: .25rem;
 }
 .result-title {
   font-size: 12px;

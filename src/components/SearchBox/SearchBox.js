@@ -1,30 +1,18 @@
-import React from 'react'
-import {findSomeArt, getThatArt} from '../../apiCalls'
+import React, {useState, useEffect} from 'react'
 import './SearchBox.css'
 
-function SearchBox {
+function SearchBox({querySearch}) {
+  const [formValue, setFormValue] = useState('')
 
-
-  handleChange = (event) => {
-    event.preventDefault()
+  const handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value});
     }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
-      console.log(this.state.formValue)
-      this.props.querySearch(this.state.formValue)
-    }
-  }
-  
-  clearFilters = (event) => {
+  const clearSearch = (event) => {
     event.preventDefault();
-    this.setState({
-      formValue: ''
-    })
+    setFormValue('')
   }
 
-  render() {
   return (
     <footer>
       <form >
@@ -33,14 +21,14 @@ function SearchBox {
           className='search-box' 
           name='search-box'
           placeholder='Search the Met...' 
-          value={this.state.formValue} 
-          onChange={event => this.handleChange(event)}>
+          value={formValue} 
+          onChange={event => setFormValue(event.target.value)}>
         </input>
       </div>
-    <button onClick={()=> this.props.querySearch(this.state.formValue)}>Get Art!</button>
+    <button onClick={(event)=> querySearch(formValue, event)}>Get Art!</button>
     </form>
   </footer>
   )
-}}
+}
 
 export default SearchBox;
