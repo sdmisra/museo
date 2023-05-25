@@ -6,13 +6,4 @@ const findSomeArt = async (query) => {
   return await res.json();
 }
 
-
-const getThatArt = async (objectID) => {
-  const res = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`);
-  if (!res.ok) {
-    throw new Error(res.status);
-  }
-  return await res.json();
-}
-
-export {findSomeArt, getThatArt};
+export {findSomeArt};

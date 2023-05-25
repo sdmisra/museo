@@ -9,24 +9,32 @@ function App() {
   const [miniGalleryTiles, setMiniTiles] = useState([])
 
   const getThatArt = async (objectID) => {
-    const res = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`);
-    if (!res.ok) {
-      throw new Error(res.status);
+    const url = `https://collectionapi.metmuseum.org/public/collection/v1/objects/`
+    try {
+      const res = await fetch(`${url}${objectID}`);
+      if (!res.ok) {
+        throw new Error('Error in single object call')
+      }
+      return await res.json()
+    } catch (error) {
+      console.log(error.message)
+    }
   }
-    return await res.json();
-}
-
+  
   useEffect(()=> {
+    let tiles = []
     if (searchResults.length > 0 && miniGalleryTiles.length === 0) {
-      console.log('useEffect conditional triggered')
-      let twenty = searchResults.slice(0, 19)
-      let tiles = []
-      twenty.map(id => 
-        getThatArt(id).then(data=> {
+      console.log('initial load of search results')
+      let ten = searchResults.slice(0, 10)
+      setSearchResults([])
+      ten.forEach(id => 
+        getThatArt(id)
+        .then(data => {
           tiles.push(<Tile props={data} key={data.objectID}/>)
           console.log(tiles)
           setMiniTiles(tiles)
         }))
+
   }}, [searchResults, miniGalleryTiles])
 
   return (
@@ -35,7 +43,7 @@ function App() {
       <Switch >
         <Route path='/'>
           <section className="search-results">
-            {miniGalleryTiles}
+            {miniGalleryTiles.length > 0 ? miniGalleryTiles : <p>No Results Yet!</p>}
           </section>
         </Route>
       </Switch >
