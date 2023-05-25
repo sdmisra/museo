@@ -1,22 +1,18 @@
-const findSomeArt = (query) => {
-  return fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${query}`)
-    .then((res) => {
-      if(!res.ok) {
-        throw new Error(res.statusText);
-      }
-      return res.json();
-    })
+const findSomeArt = async (query) => {
+  const res = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${query}`);
+  if (!res.ok) {
+    throw new Error(res.status);
+  }
+  return await res.json();
 }
 
 
-const getThatArt = (objectID) => {
-  return fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`)
-    .then((res) => {
-      if(!res.ok) {
-        throw new Error(res.statusText);
-      }
-      return res.json();
-    })
+const getThatArt = async (objectID) => {
+  const res = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`);
+  if (!res.ok) {
+    throw new Error(res.status);
+  }
+  return await res.json();
 }
 
 export {findSomeArt, getThatArt};

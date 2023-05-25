@@ -1,16 +1,21 @@
 import React, {useState, useEffect} from 'react'
+import { findSomeArt } from '../../apiCalls'
 import './SearchBox.css'
 
-function SearchBox({querySearch}) {
+function SearchBox({setSearchResults}) {
   const [formValue, setFormValue] = useState('')
 
-  const handleChange = (event) => {
-    this.setState({[event.target.name]: event.target.value});
-    }
-
   const clearSearch = (event) => {
-    event.preventDefault();
     setFormValue('')
+  }
+
+  const formSearch = (parameters, event) => {
+    event.preventDefault();
+    findSomeArt(parameters).then(data=> {
+      console.log(data)
+      setSearchResults(data['objectIDs'])
+      clearSearch();
+    });
   }
 
   return (
@@ -25,7 +30,8 @@ function SearchBox({querySearch}) {
           onChange={event => setFormValue(event.target.value)}>
         </input>
       </div>
-    <button onClick={(event)=> querySearch(formValue, event)}>Get Art!</button>
+    <button 
+    onClick={(event) => formSearch(formValue, event)}>Get Art!</button>
     </form>
   </footer>
   )

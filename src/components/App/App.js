@@ -1,5 +1,5 @@
 import React, {useState, useEffect}from 'react'
-import {findSomeArt, getThatArt} from '../../apiCalls'
+import {Switch, Route} from 'react-router-dom'
 import SearchBox from '../SearchBox/SearchBox';
 import Tile from '../Tile/Tile';
 import './App.css';
@@ -8,34 +8,40 @@ function App() {
   const [searchResults, setSearchResults] = useState([])
   const [miniGalleryTiles, setMiniTiles] = useState([])
 
-  useEffect(() => {
-    let dataToTile = [];
-    let firstTwenty = searchResults.slice(0, 19)
-    firstTwenty.map((id)=> {
-      getThatArt(id).then((artifact)=> {
-        dataToTile.push(<Tile props={artifact} key={artifact.objectID}/>)
-      })
-    })
-    setMiniTiles(dataToTile)
-    },[searchResults])
-
-  const querySearch = (parameters, event) => {
-    event.preventDefault();
-    findSomeArt(parameters).then(data=> {
-      console.log(data)
-      setSearchResults(data['objectIDs'])
-    });
+  const getThatArt = async (objectID) => {
+    const res = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`);
+    if (!res.ok) {
+      throw new Error(res.status);
   }
+    return await res.json();
+}
+
+  useEffect(()=> {
+    if (searchResults.length > 0 && miniGalleryTiles.length === 0) {
+      console.log('useEffect conditional triggered')
+      let twenty = searchResults.slice(0, 19)
+      let tiles = []
+      twenty.map(id => 
+        getThatArt(id).then(data=> {
+          tiles.push(<Tile props={data} key={data.objectID}/>)
+          console.log(tiles)
+          setMiniTiles(tiles)
+        }))
+  }}, [searchResults, miniGalleryTiles])
 
   return (
     <main className="App">
       <div className="main-container">
-        <section className="search-results">
-          {miniGalleryTiles}
-        </section>
+      <Switch >
+        <Route path='/'>
+          <section className="search-results">
+            {miniGalleryTiles}
+          </section>
+        </Route>
+      </Switch >
       </div>
       <footer>
-        <SearchBox querySearch={querySearch}/>
+        <SearchBox setSearchResults={setSearchResults}/>
       </footer>
     </main>
   )
